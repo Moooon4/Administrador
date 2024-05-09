@@ -14,9 +14,11 @@ Future<List>getProductos() async{
   for (var doc in queryProductos.docs){
     final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
+    // Agregando las variables
     final producto ={
-      "titulo": data["titulo"],
       "uid": doc.id,
+      "titulo": data["titulo"],
+      "precio": data["precio"],
     };
 
     // producto tiene la propiedad titulo
@@ -27,13 +29,19 @@ Future<List>getProductos() async{
 }
 
 // Guardar titulo en la base de datos
-Future<void> addProductos(String titulo) async {
-  await db.collection("productos").add({"titulo": titulo});
+Future<void> addProductos(String titulo, double precio) async {
+  await db.collection("productos").add({
+    "titulo": titulo,
+    "precio": precio,
+  });
 }
 
 // Actualizar titulo en la base de datos
-Future<void> updateProductos(String uid, String newtitulo) async {
-  await db.collection("productos").doc(uid).set({"titulo": newtitulo});
+Future<void> updateProductos(String uid, String newtitulo, double newprecio) async {
+  await db.collection("productos").doc(uid).set({
+    "titulo": newtitulo,
+    "precio": newprecio,
+  });
 }
 
 // Borrar datos de la base de datos
