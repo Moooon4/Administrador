@@ -62,7 +62,7 @@ class _EditNamePageState extends State<EditNamePage> {
                   } catch (e) {
                     // Manejar la excepción de manera adecuada
                     print("Error al actualizar el producto: $e");
-                    // Puedes mostrar un mensaje de error al usuario
+                    // Mostrar un mensaje de error al usuario
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(

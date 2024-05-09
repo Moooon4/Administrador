@@ -13,8 +13,19 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Agregando título a la
-        title: const Text('HOME PAGE'),
+        // Agregando título al HOME
+        title: Row(
+          children: [
+            Image.asset('lib/assets/logotenedorcuchillo.png', scale: 16),
+            const SizedBox(
+              width: 10,
+            ),
+            const Text(
+              'ADMIN',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+            ),
+          ],
+        ),
       ),
       // Comienza el llamado de datos desde la base de datos
       body: FutureBuilder(
@@ -85,43 +96,83 @@ class _HomeState extends State<Home> {
                       direction: DismissDirection.startToEnd,
                       // Agregando función de eliminado por selección
                       key: Key(snapshot.data?[index]['uid']),
-                      // Agregando el child para el llamado al listado por ID/uid
-                      child: ListTile(
-                          // Agregando el título del producto
-                          title: Text(
-                            snapshot.data?[index]['titulo'] ?? '',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          // Agregando el subtítulo del producto o sea, el precio
-                          // y también, con el ".toStringAsFixed(2)" se muestra el precio con dos decimales
-                          //title: Text("¿Está seguro de eliminar el producto: ${snapshot.data?[index]['titulo']}?"),
-                          subtitle: Text(
-                            snapshot.data?[index]['precio'] != null
-                                ? '\$${snapshot.data?[index]['precio']}'
-                                : '',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 50),
-                          onTap: () async {
-                            // Validamos que snapshot.data no sea nulo y que el index esté en rango válido de más 3
-                            if (snapshot.data != null &&
-                                index >= 0 &&
-                                index < snapshot.data!.length) {
-                              // Espera los datos modificados y los muestra ya editados
-                              await Navigator.pushNamed(context, '/edit',
-                                  arguments: {
-                                    /*
-                            Llamado de productos desde la bd para el HOME para realizar
-                            las modificaciones pero también, mostrarlos al administrador.
-                            */
-                                    "uid": snapshot.data?[index]['uid'],
-                                    "titulo": snapshot.data?[index]['titulo'],
-                                    "precio": snapshot.data?[index]['precio']?? 0.0,
-                                  });
-                              setState(() {});
-                            }
-                          }),
+                      /*---------------------Agregando box------------------------------*/
+                      // Agregando el diseño del box
+                      child: Container(
+                        margin: EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.4),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        // Agregando el child para el llamado al listado por ID/uid
+                        child: Row(
+                          children: [
+                            // Espacio para la foto
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                  image: AssetImage('lib/assets/pupusas1.jpg'),
+                                  //image: NetworkImage(snapshot.data?[index]['foto']),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10), // Espacio entre la imagen y el ListTile
+                            Expanded(
+                              child: ListTile(
+                                // Agregando el título del producto
+                                title: Text(
+                                  snapshot.data?[index]['titulo'] ?? '',
+                                  style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20)
+                                ),
+                                // Agregando el subtítulo del producto o sea, el precio
+                                // y también, con el ".toStringAsFixed(2)" se muestra el precio con dos decimales
+                                //title: Text("¿Está seguro de eliminar el producto: ${snapshot.data?[index]['titulo']}?"),
+                                subtitle: Text(
+                                  snapshot.data?[index]['precio'] != null
+                                      ? '\$${snapshot.data?[index]['precio']}'
+                                      : '',
+                                  style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                onTap: () async {
+                                  // Validamos que snapshot.data no sea nulo y que el index esté en rango válido de más 3
+                                  if (snapshot.data != null &&
+                                      index >= 0 &&
+                                      index < snapshot.data!.length) {
+                                    // Espera los datos modificados y los muestra ya editados
+                                    await Navigator.pushNamed(context, '/edit',
+                                        arguments: {
+                                          /*
+          Llamado de productos desde la bd para el HOME para realizar
+          las modificaciones pero también, mostrarlos al administrador.
+          */
+                                          "uid": snapshot.data?[index]['uid'],
+                                          "titulo": snapshot.data?[index]
+                                              ['titulo'],
+                                          "precio": snapshot.data?[index]
+                                                  ['precio'] ??
+                                              0.0,
+                                        });
+                                    setState(() {});
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   });
                 },

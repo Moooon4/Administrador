@@ -68,6 +68,12 @@ flutter:
   assets:
     - lib/assets/apple.png
     - lib/assets/google.png
+    - lib/assets/pupusas1.jpg
+    - lib/assets/comer.png
+    - lib/assets/logotenedorcuchillo.png
+    - lib/assets/entrega-de-comida.png
+    - lib/assets/quitar.png
+    - lib/assets/restaurante.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
