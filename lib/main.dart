@@ -23,9 +23,11 @@ class MyApp extends StatelessWidget{
       title: 'Administrador Chilín',
       initialRoute: '/',
       routes: {
+        //'/': (context) => LoginPage(),
         '/': (context) => const Home(),
         '/add': (context) => const AddNamePage(),
         '/edit': (context) => const EditNamePage(),
+        //'/auth': (context) => const AuthPage(),
       },
     );
   }
