@@ -16,7 +16,7 @@ class _AddNamePageState extends State<AddNamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Agregando nombre a la pantalla
+        // Agregando nombre a la pantalla AÑADIR PRODUCTO
         title: Row(
           children: [
             Image.asset('lib/assets/logotenedorcuchillo.png', scale: 18),

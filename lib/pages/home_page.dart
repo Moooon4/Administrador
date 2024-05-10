@@ -188,7 +188,8 @@ class _HomeState extends State<Home> {
           await Navigator.pushNamed(context, '/add');
           setState(() {});
         },
-        child: Image.asset('lib/assets/agregar.png', scale: 8),
+        child: Image.asset('lib/assets/agregar.png', scale: 8, color: Colors.white.withOpacity(0.8),),
+        backgroundColor: Colors.black.withOpacity(0.6),
       ),
     );
   }

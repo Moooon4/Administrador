@@ -1,6 +1,7 @@
 import 'package:administrador/pages/add_name_page.dart';
 import 'package:administrador/pages/edit_name_page.dart';
 import 'package:administrador/pages/home_page.dart';
+import 'package:administrador/pages/orders_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget{
         '/': (context) => const Home(),
         '/add': (context) => const AddNamePage(),
         '/edit': (context) => const EditNamePage(),
+        '/orders': (context) => const OrdersPage(),
         //'/auth': (context) => const AuthPage(),
       },
     );
