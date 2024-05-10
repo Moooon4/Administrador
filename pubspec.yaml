@@ -74,6 +74,10 @@ flutter:
     - lib/assets/entrega-de-comida.png
     - lib/assets/quitar.png
     - lib/assets/restaurante.png
+    - lib/assets/camara.png
+    - lib/assets/imagen.png
+    - lib/assets/agregar.png
+    - lib/assets/libro.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

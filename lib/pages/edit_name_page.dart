@@ -23,7 +23,18 @@ class _EditNamePageState extends State<EditNamePage> {
     return Scaffold(
       appBar: AppBar(
         // Agregando nombre a la pantalla
-        title: const Text('Edit Product'),
+        title: Row(
+          children: [
+            Image.asset('lib/assets/logotenedorcuchillo.png', scale: 18),
+            const SizedBox(
+              width: 8,
+            ),
+            const Text(
+              'EDIT PRODUCT',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -31,18 +42,34 @@ class _EditNamePageState extends State<EditNamePage> {
           children: [
             //----------------------------------------------------------
             // Agregando un campo de texto para modificar 'PRODUCTO'
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: 'Ingrese la modificación',
+            Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  hintText: 'Ingrese la modificación',
+                ),
               ),
             ),
             //----------------------------------------------------------
             // Agregando un campo de texto para modificar 'PRECIO'
-            TextField(
-              controller: precioController,
-              decoration: const InputDecoration(
-                hintText: 'Ingrese la modificación',
+            Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                controller: precioController,
+                decoration: const InputDecoration(
+                  hintText: 'Ingrese la modificación',
+                ),
               ),
             ),
             //----------------------------------------------------------

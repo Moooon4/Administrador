@@ -17,7 +17,26 @@ class _AddNamePageState extends State<AddNamePage> {
     return Scaffold(
       appBar: AppBar(
         // Agregando nombre a la pantalla
-        title: const Text('Add Product'),
+        title: Row(
+          children: [
+            Image.asset('lib/assets/logotenedorcuchillo.png', scale: 18),
+            const SizedBox(
+              width: 8,
+            ),
+            const Text(
+              'ADD PRODUCT',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Image.asset('lib/assets/camara.png', scale: 8)),
+          IconButton(
+              onPressed: () {},
+              icon: Image.asset('lib/assets/imagen.png', scale: 8))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -25,21 +44,39 @@ class _AddNamePageState extends State<AddNamePage> {
           children: [
             //----------------------------------------------------------
             // Agregando un campo de texto 'PRODUCTO'
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: 'Producto',
+            Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: 'Ingresar producto',
+                  border: InputBorder.none,
+                ),
               ),
             ),
             //----------------------------------------------------------
             // Agregando un campo de texto 'PRECIO'
-            TextField(
-              controller: precioController,
-              decoration: const InputDecoration(
-                hintText: 'Precio',
+            Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
               ),
-              // Asegurando el ingreso de décimales en el teclado
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              child: TextField(
+                controller: precioController,
+                decoration: InputDecoration(
+                  hintText: 'Ingresar precio',
+                  border: InputBorder.none,
+                ),
+                // Asegurando el ingreso de décimales en el teclado
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+              ),
             ),
             //----------------------------------------------------------
             // Agregango el botón para guardar
