@@ -11,7 +11,7 @@ class EditNamePage extends StatefulWidget {
 class _EditNamePageState extends State<EditNamePage> {
   TextEditingController nameController = TextEditingController(text: "");
   TextEditingController precioController = TextEditingController(text: "");
-  bool disponible = false;
+  bool disponible = true;
   
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,11 @@ class _EditNamePageState extends State<EditNamePage> {
     nameController.text = arguments?['titulo'] ?? '';
     // Convertir a cadena y asignar cadena vacía si el valor es nulo
     precioController.text = arguments?['precio']?.toString() ?? '';
-    // Asignar valor de 'disponible' si el valor es nulo
-    disponible = arguments?['disponible'] ?? false;
+    
+    // Asignar valor de 'disponible' si el valor es nulo PERO
+    // Sí, se agregad de:
+    // disponible = arguments?['disponible'] ?? true;
+    // Solo se mostrará true o false, no se podrá cambiar
 
     return Scaffold(
       appBar: AppBar(
