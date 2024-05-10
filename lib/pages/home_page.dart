@@ -2,7 +2,7 @@ import 'package:administrador/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -28,25 +28,25 @@ class _HomeState extends State<Home> {
         ),
       ),
       // Comienza el llamado de datos desde la base de datos
-      body: FutureBuilder(
-          future: getProductos(),
-          builder: ((context, snapshot) {
+      body: StreamBuilder<List<Map<String, dynamic>>>(
+          stream: getProductos(),
+          builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
-                // Listando los productos
+                 // Listando los productos
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   return Builder(builder: (context) {
                     // Agregando apartado para eliminar producto
+                    // Propiedad onDismissed
                     return Dismissible(
-                      // Propiedad onDismissed
                       onDismissed: (direction) async {
                         // Eliminando desde la bd desde el ID/uid
                         await deleteProductos(snapshot.data?[index]['uid']);
                         // Validando el array eliminado
                         snapshot.data?.removeAt(index);
                       },
-                      // Validando la confirmación de la dirección de eliminado
+                       // Validando la confirmación de la dirección de eliminado
                       confirmDismiss: (direction) async {
                         // Validando la dirección de eliminado
                         bool result = true;
@@ -54,12 +54,11 @@ class _HomeState extends State<Home> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                // Agregando la opción de eliminado pero, se muestra el nombre del producto (titulo)
+                                  // Agregando la opción de eliminado pero, se muestra el nombre del producto (titulo)
                                 title: Text(
                                     "¿Está seguro de eliminar el producto: ${snapshot.data?[index]['titulo']}?"),
                                 // Agregando las opciones de eliminado
                                 actions: [
-                                  // Botón de cancelar
                                   TextButton(
                                       onPressed: () {
                                         return Navigator.pop(
@@ -67,7 +66,7 @@ class _HomeState extends State<Home> {
                                           false,
                                         );
                                       },
-                                      // Agregando el texto con color
+                                      // Agregando el color de la opción de eliminado
                                       child: const Text("Cancelar",
                                           style: TextStyle(color: Colors.red))),
                                   // Botón de aceptar
@@ -78,7 +77,7 @@ class _HomeState extends State<Home> {
                                           true,
                                         );
                                       },
-                                      // Agregando el texto con color
+                                      // Agregando el color de la opción de eliminado
                                       child: const Text("Sí, estoy seguro",
                                           style:
                                               TextStyle(color: Colors.green)))
@@ -115,7 +114,7 @@ class _HomeState extends State<Home> {
                         // Agregando el child para el llamado al listado por ID/uid
                         child: Row(
                           children: [
-                            // Espacio para la foto
+                             // Espacio para agregar la foto
                             Container(
                               width: 100,
                               height: 100,
@@ -128,7 +127,8 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10), // Espacio entre la imagen y el ListTile
+                            // Espacio entre la imagen y el ListTile
+                            const SizedBox(width: 10),
                             Expanded(
                               child: ListTile(
                                 // Agregando el título del producto
@@ -155,15 +155,12 @@ class _HomeState extends State<Home> {
                                     await Navigator.pushNamed(context, '/edit',
                                         arguments: {
                                           /*
-          Llamado de productos desde la bd para el HOME para realizar
-          las modificaciones pero también, mostrarlos al administrador.
-          */
+                                          Llamado de productos desde la bd para el HOME para realizar
+                                          las modificaciones pero también, mostrarlos al administrador.
+                                          */
                                           "uid": snapshot.data?[index]['uid'],
-                                          "titulo": snapshot.data?[index]
-                                              ['titulo'],
-                                          "precio": snapshot.data?[index]
-                                                  ['precio'] ??
-                                              0.0,
+                                          "titulo": snapshot.data?[index]['titulo'],
+                                          "precio": snapshot.data?[index]['precio'] ?? 0.0,
                                         });
                                     setState(() {});
                                   }
@@ -181,7 +178,7 @@ class _HomeState extends State<Home> {
               // Agregando un mensaje de cargando los productos al HOME
               return const Center(child: Text("Cargando..."));
             }
-          })),
+          }),
       // Agregando el botón flotante para agregar productos
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

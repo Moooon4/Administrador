@@ -2,7 +2,7 @@ import 'package:administrador/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 
 class EditNamePage extends StatefulWidget {
-  const EditNamePage({super.key});
+  const EditNamePage({Key? key});
 
   @override
   State<EditNamePage> createState() => _EditNamePageState();
@@ -11,7 +11,8 @@ class EditNamePage extends StatefulWidget {
 class _EditNamePageState extends State<EditNamePage> {
   TextEditingController nameController = TextEditingController(text: "");
   TextEditingController precioController = TextEditingController(text: "");
-
+  bool disponible = false;
+  
   @override
   Widget build(BuildContext context) {
     final Map? arguments = ModalRoute.of(context)!.settings.arguments as Map?;
@@ -19,6 +20,8 @@ class _EditNamePageState extends State<EditNamePage> {
     nameController.text = arguments?['titulo'] ?? '';
     // Convertir a cadena y asignar cadena vacía si el valor es nulo
     precioController.text = arguments?['precio']?.toString() ?? '';
+    // Asignar valor de 'disponible' si el valor es nulo
+    disponible = arguments?['disponible'] ?? false;
 
     return Scaffold(
       appBar: AppBar(
@@ -70,43 +73,75 @@ class _EditNamePageState extends State<EditNamePage> {
                 decoration: const InputDecoration(
                   hintText: 'Ingrese la modificación',
                 ),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
               ),
+            ),
+            //----------------------------------------------------------
+            // Agregando un switch para modificar 'DISPONIBILIDAD'
+            SwitchListTile(
+              title: const Text('Disponible'),
+              value: disponible,
+              onChanged: (value) {
+                setState(() {
+                  disponible = value;
+                });
+              },
             ),
             //----------------------------------------------------------
             // Agregango el botón para actualizar
             ElevatedButton(
               onPressed: () async {
-                if (arguments != null) {
-                  try {
-                    await updateProductos(
-                      // Obteniendo el valor de 'uid'
-                      arguments['uid'],
-                      // Obteniendo los valores de los controladores
-                      nameController.text,
-                      double.parse(precioController.text),
-                    );
-                    Navigator.pop(context);
-                  } catch (e) {
-                    // Manejar la excepción de manera adecuada
-                    print("Error al actualizar el producto: $e");
-                    // Mostrar un mensaje de error al usuario
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text("Error"),
-                        content:
-                            Text("Hubo un problema al actualizar el producto."),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text("Aceptar"),
-                          ),
-                        ],
-                      ),
-                    );
+                if (nameController.text.isNotEmpty &&
+                    precioController.text.isNotEmpty) {
+                  if (arguments != null) {
+                    try {
+                      await updateProductos(
+                        // Obteniendo el valor de 'uid'
+                        arguments['uid'],
+                        // Obteniendo los valores de los controladores
+                        nameController.text,
+                        double.parse(precioController.text),
+                        disponible,
+                      );
+                      Navigator.pop(context);
+                    } catch (e) {
+                      // Manejar la excepción de manera adecuada
+                      print("Error al actualizar el producto: $e");
+                      // Mostrar un mensaje de error al usuario
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Error"),
+                          content: Text(
+                              "Hubo un problema al actualizar el producto."),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Aceptar"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text("Error"),
+                      content: Text("Todos los campos son obligatorios."),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Aceptar"),
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
               child: const Text("Actualizar"),

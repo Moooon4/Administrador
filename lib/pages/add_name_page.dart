@@ -2,7 +2,7 @@ import 'package:administrador/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 
 class AddNamePage extends StatefulWidget {
-  const AddNamePage({super.key});
+  const AddNamePage({Key? key});
 
   @override
   State<AddNamePage> createState() => _AddNamePageState();
@@ -11,6 +11,7 @@ class AddNamePage extends StatefulWidget {
 class _AddNamePageState extends State<AddNamePage> {
   TextEditingController nameController = TextEditingController(text: "");
   TextEditingController precioController = TextEditingController(text: "");
+  bool disponible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -79,26 +80,54 @@ class _AddNamePageState extends State<AddNamePage> {
               ),
             ),
             //----------------------------------------------------------
-            // Agregango el botón para guardar
+            // Agregando un switch para 'DISPONIBILIDAD'
+            SwitchListTile(
+              title: const Text('Disponible'),
+              value: disponible,
+              onChanged: (value) {
+                setState(() {
+                  disponible = value;
+                });
+              },
+            ),
+            //----------------------------------------------------------
+            // Botón para guardar el producto
             ElevatedButton(
                 onPressed: () async {
-                  try {
-                    await addProductos(
-                      // Obteniendo los valores de los controladores
-                      nameController.text,
-                      double.parse(precioController.text),
-                    );
-                    Navigator.pop(context);
-                  } catch (e) {
-                    // Manejar la excepción de manera adecuada
-                    print("Error al guardar el producto: $e");
-                    // Mostrar un mensaje de error al usuario
+                  if (nameController.text.isNotEmpty &&
+                      precioController.text.isNotEmpty) {
+                    try {
+                      await addProductos(
+                        nameController.text,
+                        double.parse(precioController.text),
+                        disponible,
+                      );
+                      Navigator.pop(context);
+                    } catch (e) {
+                      print("Error al guardar el producto: $e");
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Error"),
+                          content:
+                              Text("Hubo un problema al guardar el producto."),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Aceptar"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  } else {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text("Error"),
-                        content:
-                            Text("Hubo un problema al guardar el producto."),
+                        content: Text("Todos los campos son obligatorios."),
                         actions: [
                           TextButton(
                             onPressed: () {
